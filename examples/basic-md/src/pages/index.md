@@ -3,10 +3,8 @@
 The `vite-plugin-multip` plugin enables you to create multi-page applications with Vite!
 
 - 📦 Automatic CSS file importing
-- 🧬 Layouts support
+- 🧬 Layouts Support
 - 🔎 Framework recognition
-- 📝 Markdown support
-- 🥏 Multi-Framework support
 
 # Installation
 

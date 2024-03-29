@@ -18,7 +18,7 @@ export const multipage = (config?: Config): Plugin => {
   return {
     name: "vite-plugin-multip",
     async config() {
-      const pages = await glob("**/*.{svelte,vue,tsx,jsx}", {
+      const pages = await glob("**/*.{svelte,vue,tsx,jsx,md}", {
         cwd: root,
         filesOnly: true,
       });

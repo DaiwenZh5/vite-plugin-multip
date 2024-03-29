@@ -1,4 +1,5 @@
 import type { Config } from "../types";
+import { markdown } from "./frameworks/markdown";
 import { react } from "./frameworks/react";
 import { svelte } from "./frameworks/svelte";
 import { vue } from "./frameworks/vue";
@@ -18,6 +19,8 @@ export const generateBoilerplate = async (
       return await html(vue(file, css), config, layout);
     case "tsx" || "jsx":
       return await html(react(file, css), config, layout);
+    case "md":
+      return await html(markdown(file, css), config, layout);
     default:
       return "";
   }
