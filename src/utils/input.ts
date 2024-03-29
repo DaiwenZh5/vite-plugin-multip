@@ -1,35 +1,48 @@
 import { dirname } from "path";
 import { resolve } from "./resolve";
 
+type Frameworks = {
+  [key: string]: string;
+}
+
 export const getInputs = (
   pages: string[],
   root: string
-): [Record<string, string>, string] => {
-  let framework = "";
+): [Record<string, string>, Frameworks] => {
+  const frameworks: Frameworks = {};
+  const inputFrameworks: string[] = [];
 
   const entries = pages.map((page) => {
-    // Get framework from file extension
-    if (!framework) framework = page.split(".").pop() || "";
-
     const name = dirname(page);
+    const framework = page.split(".").pop();
+
+    if (framework) inputFrameworks.push(framework);
 
     if (name === "." || !name) return "index";
 
     return name;
   });
 
-  const input = entries.reduce((acc: Record<string, string>, page) => {
+  const input = entries.reduce((acc: Record<string, string>, page, index) => {
     const fileName = "index.html";
+    const framework = inputFrameworks[index];
 
     if (page === "index") {
-      acc[page] = resolve(root, fileName);
+      const path = resolve(root, fileName);
+
+      acc[page] = path;
+      frameworks[path] = framework || "html";
+
       return acc;
     }
 
+    const path = resolve(root, page, fileName);
+
     acc[page] = resolve(root, page, fileName);
+    frameworks[path] = framework || "html";
 
     return acc;
   }, {});
 
-  return [input, framework];
+  return [input, frameworks]; // rollup inputs, frameworks for each input
 };

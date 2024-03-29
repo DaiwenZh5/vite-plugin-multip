@@ -6,7 +6,6 @@ export type Config = {
   page?: Page;
   minify?: Options;
   assets?: Target[];
-  framework?: string;
 };
 
 export type Page = {

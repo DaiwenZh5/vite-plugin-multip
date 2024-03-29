@@ -5,7 +5,7 @@ import { resolve } from "./utils/resolve";
 import { createServer } from "./server/create";
 import { hotupdate } from "./server/hot";
 import { getLayout } from "./utils/layouts";
-import { getInputs } from "./utils/input";
+import { getInputs, type Frameworks } from "./utils/input";
 import { getStyles } from "./css/getStyles";
 import glob from "tiny-glob";
 import copy from "rollup-plugin-copy";
@@ -13,7 +13,7 @@ import copy from "rollup-plugin-copy";
 export const multipage = (config?: Config): Plugin => {
   const root = config?.directory || "src/pages";
   const assets = config?.assets || [];
-  let framework = config?.framework || "";
+  const frameworks: Frameworks = {};
 
   return {
     name: "vite-plugin-multip",
@@ -23,10 +23,11 @@ export const multipage = (config?: Config): Plugin => {
         filesOnly: true,
       });
 
-      const [input, recognizedFramework] = getInputs(pages, root);
+      const [input, recognizedFrameworks] = getInputs(pages, root);
+
+      Object.assign(frameworks, recognizedFrameworks);
 
       if (!input) throw new Error("No input found");
-      if (!framework) framework = recognizedFramework;
 
       return {
         root,
@@ -53,13 +54,14 @@ export const multipage = (config?: Config): Plugin => {
     },
 
     async load(id) {
-      if (framework === "") throw new Error("Framework not found");
-
       const fileName = "index.html";
-
       if (!id.endsWith(fileName)) return null;
 
       id = resolve(id);
+
+      const framework = frameworks[id];
+
+      if (!framework) return null;
 
       const page = id.replace(fileName, `index.${framework}`);
       const layout = await getLayout(page);
