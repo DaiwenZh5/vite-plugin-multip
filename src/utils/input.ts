@@ -1,7 +1,7 @@
 import { dirname } from "path";
 import { resolve } from "./resolve";
 
-type Frameworks = {
+export type Frameworks = {
   [key: string]: string;
 }
 
