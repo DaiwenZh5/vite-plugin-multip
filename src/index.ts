@@ -1,4 +1,4 @@
-import type { Plugin } from "vite";
+import type { Plugin, ResolvedConfig } from "vite";
 import type { Config } from "./types";
 import { generateBoilerplate } from "./boilerplate";
 import { resolve } from "./utils/resolve";
@@ -15,8 +15,15 @@ export const multipage = (config?: Config): Plugin => {
   const assets = config?.assets || [];
   const frameworks: Frameworks = {};
 
+  let viteConfig: ResolvedConfig;
+
   return {
     name: "vite-plugin-multip",
+
+    configResolved(resolvedConfig) {
+      viteConfig = resolvedConfig;
+    },
+
     async config() {
       const pages = await glob("**/*.{svelte,vue,tsx,jsx,md,html}", {
         cwd: root,
@@ -41,7 +48,7 @@ export const multipage = (config?: Config): Plugin => {
             },
             plugins: [
               copy({
-                targets: [{ src: "public/*", dest: "dist/" }, ...assets],
+                targets: [{ src: viteConfig.publicDir, dest: "dist/" }, ...assets],
               }),
             ],
           },
