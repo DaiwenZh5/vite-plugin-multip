@@ -48,7 +48,7 @@ export const multipage = (config?: Config): Plugin => {
             },
             plugins: [
               copy({
-                targets: [{ src: viteConfig.publicDir, dest: "dist/" }, ...assets],
+                targets: [{ src: viteConfig.publicDir || "public/", dest: "dist/" }, ...assets],
               }),
             ],
           },
