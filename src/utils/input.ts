@@ -11,8 +11,9 @@ export const getInputs = (
 ): [Record<string, string>, Frameworks] => {
   const frameworks: Frameworks = {};
   const inputFrameworks: string[] = [];
+  const pagesWithoutLayouts = pages.filter((page) => !page.includes("layout"));
 
-  const entries = pages.map((page) => {
+  const entries = pagesWithoutLayouts.map((page) => {
     const name = dirname(page);
     const framework = page.split(".").pop();
 
