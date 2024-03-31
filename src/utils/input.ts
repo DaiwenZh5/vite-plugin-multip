@@ -38,7 +38,7 @@ export const getInputs = (
 
     const path = resolve(root, page, fileName);
 
-    acc[page] = resolve(root, page, fileName);
+    acc[page] = path;
     frameworks[path] = framework || "html";
 
     return acc;
