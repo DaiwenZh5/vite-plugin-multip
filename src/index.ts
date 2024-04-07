@@ -1,4 +1,4 @@
-import type { Plugin, ResolvedConfig } from "vite";
+import type { Plugin } from "vite";
 import type { Config } from "./types";
 import { generateBoilerplate } from "./boilerplate";
 import { resolve } from "./utils/resolve";
@@ -6,7 +6,8 @@ import { createServer } from "./server/create";
 import { hotupdate } from "./server/hot";
 import { getLayout } from "./utils/layouts";
 import { getInputs, type Frameworks } from "./utils/input";
-import { getStyles } from "./css/getStyles";
+import { getStyles } from "./assets/getStyles";
+import { getScripts } from "./assets/getScripts";
 import glob from "tiny-glob";
 import copy from "rollup-plugin-copy";
 
@@ -66,14 +67,16 @@ export const multipage = (config?: Config): Plugin => {
       const page = id.replace(fileName, `index.${framework}`);
       const layout = await getLayout(page);
       const css = await getStyles(page.replace(`index.${framework}`, ""));
+      const scripts = await getScripts(page.replace(`index.${framework}`, ""));
 
-      return await generateBoilerplate(
-        page,
+      return await generateBoilerplate({
+        file: page,
         framework,
-        config || {},
+        config: config || {},
         layout,
-        css
-      );
+        css,
+        scripts
+      });
     },
 
     configureServer: createServer,

@@ -1,5 +1,5 @@
 import glob from "tiny-glob";
-import { resolve } from "./resolve";
+import { resolve } from "../utils/resolve";
 
 export const getScripts = async (path: string): Promise<string[]> => {
   const files = await glob(`${path}/*.{ts,js}`);

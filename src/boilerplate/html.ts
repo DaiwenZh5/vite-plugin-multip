@@ -1,19 +1,35 @@
 import { minify } from "html-minifier-terser";
 import type { Config } from "../types";
 import fs from "fs";
+import glob from "tiny-glob";
+import { resolve } from "../utils/resolve";
 
 export const html = async (body: string, config?: Config, layout?: string) => {
   let code = "";
 
   if (layout && fs.existsSync(layout) && typeof layout === "string") {
     const customHtml = fs.readFileSync(layout, "utf-8");
-    const cssPath = layout.replace(".html", ".css");
-    const cssExist = fs.existsSync(`${layout.replace(".html", ".css")}`);
+    const cssPath = await glob(layout.replace(".html", ".{css,scss,sass,less}"));
+    const scriptPath = await glob(layout.replace(".html", ".{ts,js}"));
 
-    code = customHtml.replace(
-      "</head>",
-      `${cssExist ? `<link rel="stylesheet" href="${cssPath}" /></head>` : "</head>"}`
-    );
+    if (cssPath.length > 1 || scriptPath.length > 1) {
+      throw new Error("Multiple CSS or script files found for the layout.");
+    }
+
+    if (cssPath[0] && fs.existsSync(cssPath[0])) {
+      code = customHtml.replace(
+        "</head>",
+        `<script type="module">import "${resolve(cssPath[0])}";</script></head>`
+      );
+    }
+
+    if (scriptPath[0] && fs.existsSync(scriptPath[0])) {
+      code = code.replace(
+        "</body>",
+        `<script type="module" src="${resolve(scriptPath[0])}"></script></body>`
+      );
+    }
+
     code = code.replace("<slot />", body);
   } else {
     code = `

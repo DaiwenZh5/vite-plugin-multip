@@ -1,6 +1,6 @@
-import { generateImports } from "../../css/generateImports";
+import { generateImports } from "../../assets/generateImports";
 
-export const react = (file: string, css: string[]): string => {
+export const react = (file: string, css: string[], scripts: string[]): string => {
   return `
     <div id="app"></div>
     <script type="module">
@@ -8,6 +8,7 @@ export const react = (file: string, css: string[]): string => {
       import ReactDOM from 'react-dom/client';
       import App from '${file}';
       ${generateImports(css)}
+      ${generateImports(scripts)}
 
       const e = React.createElement;
 
