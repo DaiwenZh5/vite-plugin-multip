@@ -8,6 +8,8 @@ The `vite-plugin-multip` plugin enables you to create multi-page applications wi
 - 📝 Markdown support
 - 🥏 Multi-Framework support
 
+*⚠️ As today HMR dosn't work, we are working hard!*
+
 # Installation
 
 ```bash
