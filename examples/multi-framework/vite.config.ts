@@ -1,9 +1,9 @@
 import { defineConfig } from 'vite'
 import { svelte } from '@sveltejs/vite-plugin-svelte'
 import vue from '@vitejs/plugin-vue'
-import { multipage } from '../../src/index'
+import { multip } from '../../src/index'
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [svelte(), vue(), multipage()],
+  plugins: [svelte(), vue(), multip()],
 })

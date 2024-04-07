@@ -11,7 +11,7 @@ import { getScripts } from "./assets/getScripts";
 import glob from "tiny-glob";
 import copy from "rollup-plugin-copy";
 
-export const multipage = (config?: Config): Plugin => {
+export const multip = (config?: Config): Plugin => {
   const root = config?.directory || "src/pages";
   const assets = config?.assets || [];
   const frameworks: Frameworks = {};

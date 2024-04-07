@@ -22,12 +22,12 @@ After installing the plugin, proceed with initialization in the `vite.config.ts`
 ```typescript
 import { defineConfig } from "vite";
 import { svelte } from "@sveltejs/vite-plugin-svelte";
-import { multipage } from "vite-plugin-multip";
+import { multip } from "vite-plugin-multip";
 
 export default defineConfig({
   plugins: [
     svelte(),
-    multipage(), // Optional configuration parameters can be passed here
+    multip(), // Optional configuration parameters can be passed here
   ],
 });
 ```
@@ -52,3 +52,11 @@ npm run build
 
 > [!NOTE]
 > The `dist/` directory can be directly integrated with your backend without modification.
+
+# Framework Support
+
+| Framework | Support |
+| --------- | ------- |
+| React     | Yes     |
+| Vue       | Yes     |
+| Svelte    | Yes     |
