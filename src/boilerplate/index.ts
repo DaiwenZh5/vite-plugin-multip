@@ -5,6 +5,7 @@ import { svelte } from "./frameworks/svelte";
 import { vanilla } from "./frameworks/vanilla";
 import { vue } from "./frameworks/vue";
 import { html } from "./html";
+import { getInitFile } from "../utils/vue";
 
 type BoilerplateOptions = {
   file: string,
@@ -22,7 +23,9 @@ export const generateBoilerplate = async (options: BoilerplateOptions) => {
     case "svelte":
       return await html(svelte(file, css, scripts), config, layout);
     case "vue":
-      return await html(vue(file, css, scripts), config, layout);
+      const init = await getInitFile(file);
+
+      return await html(vue(file, css, scripts, init), config, layout);
     case "tsx" || "jsx":
       return await html(react(file, css, scripts), config, layout);
     case "md":
