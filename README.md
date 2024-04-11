@@ -44,7 +44,7 @@ src/
 
 Remove useful imports in `index.html` (required):
 
-```diff&html
+```diff
 <!doctype html>
 <html lang="en">
 <head>
