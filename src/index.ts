@@ -75,7 +75,7 @@ export const multip = (config?: Config): Plugin => {
 
       const id = page.replace("index.html", `index.${framework}`);
 
-      if (!framework || !id) throw new Error("No framework found");
+      if (!framework) return `<!DOCTYPE html><html><title>404</title><body>404</body></html>`;
 
       return await load(id, framework, config || {});
     }
