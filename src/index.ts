@@ -1,15 +1,10 @@
 import type { Plugin } from "vite";
 import type { Config } from "./types";
-import { generateBoilerplate } from "./boilerplate";
 import { resolve } from "./utils/resolve";
-import { createServer } from "./server/create";
-import { hotupdate } from "./server/hot";
-import { getLayout } from "./utils/layouts";
 import { getInputs, type Frameworks } from "./utils/input";
-import { getStyles } from "./assets/getStyles";
-import { getScripts } from "./assets/getScripts";
 import glob from "tiny-glob";
 import copy from "rollup-plugin-copy";
+import { load } from "./load";
 
 export const multip = (config?: Config): Plugin => {
   const root = config?.directory || "src/pages";
@@ -18,7 +13,8 @@ export const multip = (config?: Config): Plugin => {
 
   return {
     name: "vite-plugin-multip",
-    async config(viteConfig) {
+    enforce: "pre",
+    async config(viteConfig, env) {
       const pages = await glob("**/*.{svelte,vue,tsx,jsx,md,html}", {
         cwd: root,
         filesOnly: true,
@@ -28,15 +24,15 @@ export const multip = (config?: Config): Plugin => {
 
       Object.assign(frameworks, recognizedFrameworks);
 
-      if (!input) throw new Error("No input found");
+      if (!input) throw new Error("No pages found");
 
       return {
-        root,
+        root: env.command === "build" ? root : "./",
         build: {
           outDir: "dist",
           emptyOutDir: true,
           rollupOptions: {
-            input,
+            input: env.command === "build" ? input : {},
             output: {
               dir: "dist",
             },
@@ -65,21 +61,23 @@ export const multip = (config?: Config): Plugin => {
       if (!framework) return null;
 
       const page = id.replace(fileName, `index.${framework}`);
-      const layout = await getLayout(page);
-      const css = await getStyles(page.replace(`index.${framework}`, ""));
-      const scripts = await getScripts(page.replace(`index.${framework}`, ""));
 
-      return await generateBoilerplate({
-        file: page,
-        framework,
-        config: config || {},
-        layout,
-        css,
-        scripts
-      });
+      return await load(page, framework, config || {});
     },
 
-    configureServer: createServer,
-    handleHotUpdate: hotupdate,
+    async transformIndexHtml(_, ctx) {
+      if (!ctx.server) return;
+      if (ctx.server.config.command === "build") return;
+
+      const pages = resolve(`.${ctx.path.replace("index.html", "") + root}`);
+      const page = resolve(`${pages}/${ctx.originalUrl}/index.html`);
+      const framework = frameworks[page];
+
+      const id = page.replace("index.html", `index.${framework}`);
+
+      if (!framework || !id) throw new Error("No framework found");
+
+      return await load(id, framework, config || {});
+    }
   };
 };
