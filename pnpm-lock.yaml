@@ -22,7 +22,7 @@ dependencies:
     version: 0.2.9
   vite:
     specifier: ^5.1.6
-    version: 5.1.6(@types/node@20.11.27)(terser@5.30.0)
+    version: 5.1.7(@types/node@20.11.27)(terser@5.30.0)
 
 devDependencies:
   '@types/html-minifier-terser':
@@ -1394,8 +1394,8 @@ packages:
     engines: {node: '>= 4.0.0'}
     dev: false
 
-  /vite@5.1.6(@types/node@20.11.27)(terser@5.30.0):
-    resolution: {integrity: sha512-yYIAZs9nVfRJ/AiOLCA91zzhjsHUgMjB+EigzFb6W2XTLO8JixBCKCjvhKZaye+NKYHCrkv3Oh50dH9EdLU2RA==}
+  /vite@5.1.7(@types/node@20.11.27)(terser@5.30.0):
+    resolution: {integrity: sha512-sgnEEFTZYMui/sTlH1/XEnVNHMujOahPLGMxn1+5sIT45Xjng1Ec1K78jRP15dSmVgg5WBin9yO81j3o9OxofA==}
     engines: {node: ^18.0.0 || >=20.0.0}
     hasBin: true
     peerDependencies:
