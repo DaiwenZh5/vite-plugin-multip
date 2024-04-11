@@ -66,11 +66,13 @@ export const multip = (config?: Config): Plugin => {
     },
 
     async transformIndexHtml(_, ctx) {
-      if (!ctx.server) return;
+      if (!ctx.server || !ctx.originalUrl) return;
       if (ctx.server.config.command === "build") return;
 
+      const originalUrl = ctx.originalUrl.split("?")[0];
+
       const pages = resolve(`.${ctx.path.replace("index.html", "") + root}`);
-      const page = resolve(`${pages}/${ctx.originalUrl}/index.html`);
+      const page = resolve(`${pages}/${originalUrl}/index.html`);
       const framework = frameworks[page];
 
       const id = page.replace("index.html", `index.${framework}`);
