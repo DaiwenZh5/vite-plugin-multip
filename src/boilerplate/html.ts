@@ -9,8 +9,14 @@ export const html = async (body: string, config?: Config, layout?: string) => {
 
   if (layout && fs.existsSync(layout) && typeof layout === "string") {
     const customHtml = fs.readFileSync(layout, "utf-8");
-    const cssPath = await glob(layout.replace(".html", ".{css,scss,sass,less}"));
-    const scriptPath = await glob(layout.replace(".html", ".{ts,js}"));
+
+    const cssPath = await glob(layout.replace(".html", ".{css,scss,sass,less}"), {
+      filesOnly: true,
+    });
+
+    const scriptPath = await glob(layout.replace(".html", ".{ts,js}"), {
+      filesOnly: true,
+    });
 
     if (cssPath.length > 1 || scriptPath.length > 1) {
       throw new Error("Multiple CSS or script files found for the layout.");
@@ -49,6 +55,8 @@ export const html = async (body: string, config?: Config, layout?: string) => {
   const result = await minify(code, {
     collapseWhitespace: config?.minify?.collapseWhitespace || true,
     removeComments: config?.minify?.removeComments || true,
+    minifyCSS: config?.minify?.minifyCSS || true,
+    minifyJS: config?.minify?.minifyJS || true,
     ...config?.minify,
   });
 

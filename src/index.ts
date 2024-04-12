@@ -29,16 +29,16 @@ export const multip = (config?: Config): Plugin => {
       return {
         root: env.command === "build" ? root : "./",
         build: {
-          outDir: "dist",
+          outDir: viteConfig.build?.outDir || "dist",
           emptyOutDir: true,
           rollupOptions: {
             input: env.command === "build" ? input : {},
             output: {
-              dir: "dist",
+              dir: viteConfig.build?.outDir || "dist",
             },
             plugins: [
               copy({
-                targets: [{ src: viteConfig.publicDir || "public/", dest: "dist/" }, ...assets],
+                targets: [{ src: viteConfig.publicDir || "public/", dest: viteConfig.build?.outDir || "dist" }, ...assets]
               }),
             ],
           },
