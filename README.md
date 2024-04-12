@@ -59,6 +59,7 @@ Remove useful imports in `index.html` (required):
 </body>
 </html>
 ```
+*today the content of `index.html` is useless, in the future it will work as a layout*
 
 Now, build:
 
@@ -69,6 +70,23 @@ npm run build
 > [!NOTE]
 > The `dist/` directory can be directly integrated with your backend without modification.
 
+# Configuration
+Configuration parameters
+
+```ts
+// plugins: [multip(..config)]
+type Config = {
+  directory?: string;
+  page?: Page;
+  minify?: import("html-minifier-terser").Options;
+  assets?: import("rollup-plugin-copy").Target[];
+};
+
+type Page = {
+  title?: string | ((file: string) => string);
+};
+```
+
 # Framework Support
 
 | Framework | Support |
@@ -76,3 +94,6 @@ npm run build
 | React     | Yes     |
 | Vue       | Yes     |
 | Svelte    | Yes     |
+| Qwik      | No      |
+| Solid     | No      |
+| Lit       | No      |
