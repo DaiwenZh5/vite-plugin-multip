@@ -11,3 +11,8 @@ export type Config = {
 export type Page = {
   title?: string | ((file: string) => string);
 };
+
+export type Framework = {
+  type: string;
+  ext: string;
+};

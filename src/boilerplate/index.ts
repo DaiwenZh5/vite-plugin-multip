@@ -1,4 +1,4 @@
-import type { Config } from "../types";
+import type { Config, Framework } from "../types";
 import { markdown } from "./frameworks/markdown";
 import { react } from "./frameworks/react";
 import { svelte } from "./frameworks/svelte";
@@ -6,28 +6,32 @@ import { vanilla } from "./frameworks/vanilla";
 import { vue } from "./frameworks/vue";
 import { html } from "./html";
 import { getInitFile } from "../utils/vue";
+import { solid } from "./frameworks/solid";
 
 type BoilerplateOptions = {
   file: string,
-  framework: string,
+  framework: Framework,
   config: Config,
   layout: string,
   css: string[],
-  scripts: string[]
+  scripts: string[],
+  dev: boolean
 }
 
 export const generateBoilerplate = async (options: BoilerplateOptions) => {
-  const { file, framework, config, layout, css, scripts } = options;
+  const { file, framework, config, layout, css, scripts, dev } = options;
 
-  switch (framework) {
+  switch (framework.type) {
     case "svelte":
       return await html(svelte(file, css, scripts), config, layout);
     case "vue":
       const init = await getInitFile(file);
 
-      return await html(vue(file, css, scripts, init), config, layout);
-    case "tsx" || "jsx":
-      return await html(react(file, css, scripts), config, layout);
+      return await html(vue(file, css, scripts, init, dev), config, layout);
+    case "react":
+      return await html(react(file, css, scripts, dev), config, layout);
+    case "solid":
+      return await html(solid(file, css, scripts, dev), config, layout);
     case "md":
       return await html(markdown(file, css, scripts), config, layout);
     case "html":
