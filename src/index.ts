@@ -20,7 +20,7 @@ export const multip = (config?: Config): Plugin => {
         filesOnly: true,
       });
 
-      const [input, recognizedFrameworks] = getInputs(pages, root);
+      const [input, recognizedFrameworks] = getInputs(pages, root, viteConfig);
 
       Object.assign(frameworks, recognizedFrameworks);
 
@@ -60,9 +60,9 @@ export const multip = (config?: Config): Plugin => {
 
       if (!framework) return null;
 
-      const page = id.replace(fileName, `index.${framework}`);
+      const page = id.replace(fileName, `index.${framework.ext}`);
 
-      return await load(page, framework, config || {});
+      return await load(page, framework, config || {}, false);
     },
 
     async transformIndexHtml(_, ctx) {
@@ -72,14 +72,14 @@ export const multip = (config?: Config): Plugin => {
       const originalUrl = ctx.originalUrl.split("?")[0];
 
       const pages = resolve(`.${ctx.path.replace("index.html", "") + root}`);
-      const page = resolve(`${pages}/${originalUrl}/index.html`);
-      const framework = frameworks[page];
-
-      const id = page.replace("index.html", `index.${framework}`);
+      const id = resolve(`${pages}/${originalUrl}/index.html`);
+      const framework = frameworks[id];
 
       if (!framework) return `<!DOCTYPE html><html><title>404</title><body>404</body></html>`;
 
-      return await load(id, framework, config || {});
+      const page = id.replace("index.html", `index.${framework.ext}`);
+
+      return await load(page, framework, config || {}, true);
     }
   };
 };

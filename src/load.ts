@@ -1,13 +1,13 @@
 import { getScripts } from "./assets/getScripts";
 import { getStyles } from "./assets/getStyles";
 import { generateBoilerplate } from "./boilerplate";
-import type { Config } from "./types";
+import type { Config, Framework } from "./types";
 import { getLayout } from "./utils/layouts";
 
-export const load = async (id: string, framework: string, config: Config) => {
+export const load = async (id: string, framework: Framework, config: Config, dev: boolean) => {
   const layout = await getLayout(id);
-  const css = await getStyles(id.replace(`index.${framework}`, ""));
-  const scripts = await getScripts(id.replace(`index.${framework}`, ""));
+  const css = await getStyles(id.replace(`index.${framework.ext}`, ""));
+  const scripts = await getScripts(id.replace(`index.${framework.ext}`, ""));
 
   return await generateBoilerplate({
     file: id,
@@ -15,6 +15,7 @@ export const load = async (id: string, framework: string, config: Config) => {
     config: config || {},
     layout,
     css,
-    scripts
+    scripts,
+    dev
   });
 }
