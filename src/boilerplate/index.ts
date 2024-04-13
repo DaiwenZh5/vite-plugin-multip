@@ -27,7 +27,7 @@ export const generateBoilerplate = async (options: BoilerplateOptions) => {
     case "vue":
       const init = await getInitFile(file);
 
-      return await html(vue(file, css, scripts, init, dev), config, layout);
+      return await html(vue(file, css, scripts, dev, init), config, layout);
     case "react":
       return await html(react(file, css, scripts, dev), config, layout);
     case "solid":
