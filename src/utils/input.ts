@@ -1,7 +1,8 @@
 import { dirname } from "path";
 import { resolve } from "./resolve";
-import type { Plugin, UserConfig } from "vite";
+import type { UserConfig } from "vite";
 import type { Framework } from "../types";
+import { getFramework } from "./framework";
 
 export type Frameworks = {
   [key: string]: Framework;
@@ -18,27 +19,9 @@ export const getInputs = (
 
   const entries = pagesWithoutLayouts.map((page) => {
     const name = dirname(page);
-    const framework = page.split(".").pop();
+    const framework = getFramework(page, viteConfig);
 
-    if (!framework) return name;
-
-    if (framework.endsWith("tsx") || framework.endsWith("jsx")) {
-      if (!viteConfig.plugins) return "react";
-
-      const ext = framework.endsWith("tsx") ? "tsx" : "jsx";
-
-      // Plugin returns .name property, but it's not in the type
-      // @ts-ignore
-      viteConfig.plugins.forEach((plugin: Plugin) => {
-        if (plugin.name === "solid") {
-          inputFrameworks.push({ type: "solid", ext });
-        } else if (!plugin.name) {
-          inputFrameworks.push({ type: "react", ext });
-        }
-      });
-    } else {
-      inputFrameworks.push({ type: framework, ext: framework });
-    }
+    inputFrameworks.push(framework);
 
     if (name === "." || !name) return "index";
 
