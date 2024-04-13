@@ -26,5 +26,5 @@ export const getFramework = (path: string, viteConfig: UserConfig): Framework =>
     return result;
   }
 
-  return { type: "html", ext: "html" };
+  return { type: framework, ext: framework };
 }
