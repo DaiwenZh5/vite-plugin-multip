@@ -94,6 +94,6 @@ type Page = {
 | React     | Yes     |
 | Vue       | Yes     |
 | Svelte    | Yes     |
+| Solid     | Yes     |
 | Qwik      | No      |
-| Solid     | No      |
 | Lit       | No      |
