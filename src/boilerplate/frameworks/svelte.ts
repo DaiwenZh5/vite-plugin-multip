@@ -1,4 +1,4 @@
-import { generateImports } from "../../assets/generateImports";
+import { generateImports, generateImportsDev } from "../../assets/generateImports";
 import { fixPath } from "../../utils/path";
 
 export const svelte = (file: string, css: string[], scripts: string[], dev: boolean, root: string): string => {
@@ -6,8 +6,8 @@ export const svelte = (file: string, css: string[], scripts: string[], dev: bool
     <div id="app"></div>
     <script type="module">
       import App from '${!dev ? file : fixPath(file, root)}';
-      ${generateImports(css)}
-      ${generateImports(scripts)}
+      ${!dev ? generateImports(css) : generateImportsDev(css, root)}
+      ${!dev ? generateImports(scripts) : generateImportsDev(scripts, root)}
       const app = new App({ target: document.getElementById('app') });
       export default app;
     </script>

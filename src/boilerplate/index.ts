@@ -33,9 +33,9 @@ export const generateBoilerplate = async (options: BoilerplateOptions) => {
     case "solid":
       return await html(solid(file, css, scripts, dev, config.directory || "src/pages"), config, layout);
     case "md":
-      return await html(markdown(file, css, scripts), config, layout);
+      return await html(markdown(file, css, scripts, dev, config.directory || "src/pages"), config, layout);
     case "html":
-      return await html(vanilla(file, css, scripts), config, layout);
+      return await html(vanilla(file, css, scripts, dev, config.directory || "src/pages"), config, layout);
     default:
       return "";
   }

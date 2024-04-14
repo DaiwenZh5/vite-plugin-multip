@@ -1,4 +1,4 @@
-import { generateImports } from "../../assets/generateImports";
+import { generateImports, generateImportsDev } from "../../assets/generateImports";
 import { fixPath } from "../../utils/path";
 
 export const vue = (file: string, css: string[], scripts: string[], dev: boolean, root: string, init?: string): string => {
@@ -10,8 +10,8 @@ export const vue = (file: string, css: string[], scripts: string[], dev: boolean
       import { createApp } from '${!dev ? 'vue' : './node_modules/vue'}';
       import App from '${!dev ? file : fixPath(file, root)}';
       ${init ? `import { init } from '${init}';` : ""}
-      ${generateImports(css)}
-      ${generateImports(scripts)}
+      ${!dev ? generateImports(css) : generateImportsDev(css, root)}
+      ${!dev ? generateImports(scripts) : generateImportsDev(scripts, root)}
       const app = createApp(App);
       ${init ? "init(app);" : ""}
       app.mount('#app');

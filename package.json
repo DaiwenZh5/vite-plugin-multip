@@ -21,7 +21,8 @@
     "plugin",
     "multi",
     "page",
-    "application"
+    "application",
+    "vite-plugin"
   ],
   "author": "Valerio Clemenzi",
   "dependencies": {

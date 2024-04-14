@@ -2,9 +2,9 @@ import type { Plugin } from "vite";
 import type { Config } from "./types";
 import { resolve } from "./utils/resolve";
 import { getInputs, type Frameworks } from "./utils/input";
+import { load } from "./load";
 import glob from "tiny-glob";
 import copy from "rollup-plugin-copy";
-import { load } from "./load";
 
 export const multip = (config?: Config): Plugin => {
   const root = config?.directory || "src/pages";

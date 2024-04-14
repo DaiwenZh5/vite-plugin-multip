@@ -1,8 +1,8 @@
 import markdownit from "markdown-it";
 import fs from "fs";
-import { generateImports } from "../../assets/generateImports";
+import { generateImports, generateImportsDev } from "../../assets/generateImports";
 
-export const markdown = (file: string, css: string[], scripts: string[]): string => {
+export const markdown = (file: string, css: string[], scripts: string[], dev: boolean, root: string): string => {
   const content = fs.readFileSync(file, "utf-8");
   const md = markdownit();
 
@@ -11,8 +11,8 @@ export const markdown = (file: string, css: string[], scripts: string[]): string
   return `
     <div id="app">${html}</div>
     <script type="module">
-      ${generateImports(css)} 
-      ${generateImports(scripts)}
+      ${!dev ? generateImports(css) : generateImportsDev(css, root)}
+      ${!dev ? generateImports(scripts) : generateImportsDev(scripts, root)}
     </script>
   `;
 };
