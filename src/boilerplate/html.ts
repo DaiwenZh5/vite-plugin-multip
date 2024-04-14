@@ -3,8 +3,9 @@ import type { Config } from "../types";
 import fs from "fs";
 import glob from "tiny-glob";
 import { resolve } from "../utils/resolve";
+import { fixPath } from "../utils/path";
 
-export const html = async (body: string, config?: Config, layout?: string) => {
+export const html = async (body: string, config?: Config, layout?: string, dev?: boolean) => {
   let code = "";
 
   if (layout && fs.existsSync(layout) && typeof layout === "string") {
@@ -25,14 +26,14 @@ export const html = async (body: string, config?: Config, layout?: string) => {
     if (cssPath[0] && fs.existsSync(cssPath[0])) {
       code = customHtml.replace(
         "</head>",
-        `<script type="module">import "${resolve(cssPath[0])}";</script></head>`
+        `<script type="module">import "${!dev ? resolve(cssPath[0]) : fixPath(resolve(cssPath[0]), config?.directory || "src/pages")}";</script></head>`
       );
     }
 
     if (scriptPath[0] && fs.existsSync(scriptPath[0])) {
       code = code.replace(
         "</body>",
-        `<script type="module" src="${resolve(scriptPath[0])}"></script></body>`
+        `<script type="module" src="${!dev ? resolve(scriptPath[0]) : fixPath(resolve(scriptPath[0]), config?.directory || "src/pages")}"></script></body>`
       );
     }
 
