@@ -23,15 +23,15 @@ export const generateBoilerplate = async (options: BoilerplateOptions) => {
 
   switch (framework.type) {
     case "svelte":
-      return await html(svelte(file, css, scripts), config, layout);
+      return await html(svelte(file, css, scripts, dev, config.directory || "src/pages"), config, layout);
     case "vue":
       const init = await getInitFile(file);
 
-      return await html(vue(file, css, scripts, dev, init), config, layout);
+      return await html(vue(file, css, scripts, dev, config.directory || "src/pages", init), config, layout);
     case "react":
-      return await html(react(file, css, scripts, dev), config, layout);
+      return await html(react(file, css, scripts, dev, config.directory || "src/pages"), config, layout);
     case "solid":
-      return await html(solid(file, css, scripts, dev), config, layout);
+      return await html(solid(file, css, scripts, dev, config.directory || "src/pages"), config, layout);
     case "md":
       return await html(markdown(file, css, scripts), config, layout);
     case "html":
