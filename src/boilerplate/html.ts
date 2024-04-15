@@ -23,6 +23,8 @@ export const html = async (body: string, config?: Config, layout?: string, dev?:
       throw new Error("Multiple CSS or script files found for the layout.");
     }
 
+    code = customHtml;
+
     if (cssPath[0] && fs.existsSync(cssPath[0])) {
       code = customHtml.replace(
         "</head>",
