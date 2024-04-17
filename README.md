@@ -1,4 +1,7 @@
 # vite-plugin-multip
+[![npm version](https://img.shields.io/npm/v/vite-plugin-multip)](https://npmjs.com/package/vite-plugin-multip)
+![weekly downloads](https://img.shields.io/npm/dw/vite-plugin-multip)
+![license](https://img.shields.io/npm/l/vite-plugin-multip)
 
 The `vite-plugin-multip` plugin enables you to create multi-page applications with Vite!
 
