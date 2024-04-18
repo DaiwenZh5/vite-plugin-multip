@@ -17,11 +17,9 @@ export const getLayout = async (id: string): Promise<string> => {
   if (nearestLayout.length < 1 || typeof nearestLayout[0] != "string")
     throw new Error("Nearest layout not found");
 
-  const layout = nearestLayout.map(
-    (p) => resolve(dirname(id), p)
-  )[0];
+  const layout = nearestLayout.map((p) => resolve(dirname(id), p))[0];
 
   if (!layout) throw new Error("Layout not found");
 
-  return resolve(dirname(id), layout)
+  return resolve(dirname(id), layout);
 };

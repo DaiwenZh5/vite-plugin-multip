@@ -7,4 +7,5 @@ Documentation of the plugin (web version in arrtive) vite-plugin-multip
 ## Framework specific features
 
 ### Vue
+
 - [init.ts](https://github.com/vclemenzi/vite-plugin-multip/blob/main/docs/vue/init.ts.md)

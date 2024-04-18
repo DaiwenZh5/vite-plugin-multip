@@ -1,7 +1,10 @@
 import type { UserConfig, Plugin } from "vite";
 import type { Framework } from "../types";
 
-export const getFramework = (path: string, viteConfig: UserConfig): Framework => {
+export const getFramework = (
+  path: string,
+  viteConfig: UserConfig
+): Framework => {
   const framework = path.split(".").pop();
 
   if (!framework) return { type: "html", ext: "html" };
@@ -27,4 +30,4 @@ export const getFramework = (path: string, viteConfig: UserConfig): Framework =>
   }
 
   return { type: framework, ext: framework };
-}
+};

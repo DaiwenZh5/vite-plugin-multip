@@ -6,12 +6,12 @@ import { getFramework } from "./framework";
 
 export type Frameworks = {
   [key: string]: Framework;
-}
+};
 
 export const getInputs = (
   pages: string[],
   root: string,
-  viteConfig: UserConfig,
+  viteConfig: UserConfig
 ): [Record<string, string>, Frameworks] => {
   const frameworks: Frameworks = {};
   const inputFrameworks: Framework[] = [];
@@ -38,7 +38,11 @@ export const getInputs = (
       acc[page] = path;
 
       if (!framework) frameworks[path] = { type: "html", ext: "html" };
-      else frameworks[path] = { type: framework.type || "html", ext: framework.ext || "html" };
+      else
+        frameworks[path] = {
+          type: framework.type || "html",
+          ext: framework.ext || "html",
+        };
 
       return acc;
     }
@@ -48,7 +52,11 @@ export const getInputs = (
     acc[page] = path;
 
     if (!framework) frameworks[path] = { type: "html", ext: "html" };
-    else frameworks[path] = { type: framework.type || "html", ext: framework.ext || "html" };
+    else
+      frameworks[path] = {
+        type: framework.type || "html",
+        ext: framework.ext || "html",
+      };
 
     return acc;
   }, {});

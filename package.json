@@ -28,17 +28,16 @@
   "dependencies": {
     "html-minifier-terser": "^7.2.0",
     "markdown-it": "^14.1.0",
-    "mime": "^4.0.1",
     "rollup-plugin-copy": "^3.5.0",
     "tiny-glob": "^0.2.9",
-    "vite": "^5.1.6"
+    "vite": "^5.2.9"
   },
   "devDependencies": {
     "@types/html-minifier-terser": "^7.0.2",
-    "@types/node": "^20.11.27",
+    "@types/node": "^20.12.7",
     "prettier": "3.2.5",
-    "terser": "^5.30.0",
+    "terser": "^5.30.3",
     "tsup": "^8.0.2",
-    "typescript": "^5.4.2"
+    "typescript": "^5.4.5"
   }
 }

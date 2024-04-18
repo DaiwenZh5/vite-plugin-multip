@@ -18,4 +18,4 @@ export const getInitFile = async (id: string): Promise<string> => {
     throw new Error("Nearest init file not found");
 
   return resolve(dirname(id), nearestInit[0]);
-}
+};

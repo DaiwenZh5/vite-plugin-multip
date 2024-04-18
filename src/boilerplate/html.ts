@@ -5,15 +5,23 @@ import glob from "tiny-glob";
 import { resolve } from "../utils/resolve";
 import { fixPath } from "../utils/path";
 
-export const html = async (body: string, config?: Config, layout?: string, dev?: boolean) => {
+export const html = async (
+  body: string,
+  config?: Config,
+  layout?: string,
+  dev?: boolean
+) => {
   let code = "";
 
   if (layout && fs.existsSync(layout) && typeof layout === "string") {
     const customHtml = fs.readFileSync(layout, "utf-8");
 
-    const cssPath = await glob(layout.replace(".html", ".{css,scss,sass,less}"), {
-      filesOnly: true,
-    });
+    const cssPath = await glob(
+      layout.replace(".html", ".{css,scss,sass,less}"),
+      {
+        filesOnly: true,
+      }
+    );
 
     const scriptPath = await glob(layout.replace(".html", ".{ts,js}"), {
       filesOnly: true,

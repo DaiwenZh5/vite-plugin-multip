@@ -9,14 +9,14 @@ import { getInitFile } from "../utils/vue";
 import { solid } from "./frameworks/solid";
 
 type BoilerplateOptions = {
-  file: string,
-  framework: Framework,
-  config: Config,
-  layout: string,
-  css: string[],
-  scripts: string[],
-  dev: boolean
-}
+  file: string;
+  framework: Framework;
+  config: Config;
+  layout: string;
+  css: string[];
+  scripts: string[];
+  dev: boolean;
+};
 
 export const generateBoilerplate = async (options: BoilerplateOptions) => {
   const { file, framework, config, layout, css, scripts, dev } = options;

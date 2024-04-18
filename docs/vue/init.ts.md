@@ -9,14 +9,14 @@ The `init.ts` file exports an `init` function that accepts an `App` parameter fr
 ### Example of `init.ts`
 
 ```typescript
-import type { App } from 'vue'
+import type { App } from "vue";
 
 /**
  * @param app Vue application instance.
  */
 export const init = (app: App<Element>) => {
   // Perform initialization tasks here
-}
+};
 ```
 
 This can be used for use external libraries in your vue project

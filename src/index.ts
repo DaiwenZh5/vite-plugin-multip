@@ -38,7 +38,13 @@ export const multip = (config?: Config): Plugin => {
             },
             plugins: [
               copy({
-                targets: [{ src: viteConfig.publicDir || "public/", dest: viteConfig.build?.outDir || "dist" }, ...assets]
+                targets: [
+                  {
+                    src: viteConfig.publicDir || "public/",
+                    dest: viteConfig.build?.outDir || "dist",
+                  },
+                  ...assets,
+                ],
               }),
             ],
           },
@@ -75,11 +81,12 @@ export const multip = (config?: Config): Plugin => {
       const id = resolve(`${pages}/${originalUrl}/index.html`);
       const framework = frameworks[id];
 
-      if (!framework) return `<!DOCTYPE html><html><title>404</title><body>404</body></html>`;
+      if (!framework)
+        return `<!DOCTYPE html><html><title>404</title><body>404</body></html>`;
 
       const page = id.replace("index.html", `index.${framework.ext}`);
 
       return await load(page, framework, config || {}, true);
-    }
+    },
   };
 };
