@@ -1,7 +1,7 @@
 # vite-plugin-multip
 [![npm version](https://img.shields.io/npm/v/vite-plugin-multip)](https://npmjs.com/package/vite-plugin-multip)
-![weekly downloads](https://img.shields.io/npm/dw/vite-plugin-multip)
-![license](https://img.shields.io/npm/l/vite-plugin-multip)
+[![weekly downloads](https://img.shields.io/npm/dw/vite-plugin-multip)](https://npmjs.com/package/vite-plugin-multip)
+[![license](https://img.shields.io/npm/l/vite-plugin-multip)](https://github.com/vclemenzi/vite-plugin-multip/blob/main/LICENSE)
 
 The `vite-plugin-multip` plugin enables you to create multi-page applications with Vite!
 
@@ -57,12 +57,13 @@ Remove useful imports in `index.html` (required):
   <title>Vite + Svelte + TS</title>
 </head>
 <body>
-  <div id="app"></div>
++ <slot />
+- <div id="app"></div>
 - <script type="module" src="/src/main.ts"></script>
 </body>
 </html>
 ```
-*today the content of `index.html` is useless, in the future it will work as a layout*
+*index.html works as a layout*
 
 Now, build:
 
@@ -77,7 +78,7 @@ npm run build
 Configuration parameters
 
 ```ts
-// plugins: [multip(..config)]
+// plugins: [multip(...config)]
 type Config = {
   directory?: string;
   page?: Page;
