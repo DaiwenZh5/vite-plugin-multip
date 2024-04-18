@@ -41,7 +41,19 @@ export const html = async (body: string, config?: Config, layout?: string, dev?:
 
     code = code.replace("<slot />", body);
   } else {
-    code = `
+    if (fs.existsSync(resolve("index.html"))) {
+      const content = fs.readFileSync(resolve("index.html"), "utf-8");
+
+      code = content.replace("<slot />", body);
+
+      if (code === content) {
+        code = code.replace("</body>", `${body}</body>`);
+      }
+    } else {
+      // Catch-all for when no index.html is found
+      // Pretty rare case, because without the index.html the dev mode dosn't work
+
+      code = `
       <!DOCTYPE html>
       <html lang="en">
         <head>
@@ -53,6 +65,7 @@ export const html = async (body: string, config?: Config, layout?: string, dev?:
           ${body}
         </body>
       </html>`;
+    }
   }
 
   const result = await minify(code, {
