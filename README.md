@@ -48,7 +48,7 @@ src/
        index.(svelte|tsx|vue)
 ```
 
-Remove useful imports in `index.html` (required):
+Remove imports in `index.html` (required):
 
 ```diff
 <!doctype html>
