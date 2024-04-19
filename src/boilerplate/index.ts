@@ -1,11 +1,11 @@
 import type { Config, Framework } from "../types";
+import { html } from "./html";
+import { getInitFile } from "../utils/vue";
 import { markdown } from "./frameworks/markdown";
 import { react } from "./frameworks/react";
 import { svelte } from "./frameworks/svelte";
 import { vanilla } from "./frameworks/vanilla";
 import { vue } from "./frameworks/vue";
-import { html } from "./html";
-import { getInitFile } from "../utils/vue";
 import { solid } from "./frameworks/solid";
 
 type BoilerplateOptions = {

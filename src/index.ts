@@ -72,8 +72,7 @@ export const multip = (config?: Config): Plugin => {
     },
 
     async transformIndexHtml(_, ctx) {
-      if (!ctx.server || !ctx.originalUrl) return;
-      if (ctx.server.config.command === "build") return;
+      if (!ctx.server || !ctx.originalUrl || ctx.server.config.command === "build") return;
 
       const originalUrl = ctx.originalUrl.split("?")[0];
 
