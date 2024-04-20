@@ -2,8 +2,8 @@ import glob from "tiny-glob";
 import { dirname } from "path";
 import { resolve } from "./resolve";
 
-export const getLayout = async (id: string): Promise<string> => {
-  const layouts = await glob("../**/layout.html", {
+export const getLayoutByType = async (id: string, type: string): Promise<string> => {
+  const layouts = await glob(`../**/layout.${type}`, {
     cwd: dirname(id),
     filesOnly: true,
   });
@@ -22,4 +22,8 @@ export const getLayout = async (id: string): Promise<string> => {
   if (!layout) throw new Error("Layout not found");
 
   return resolve(dirname(id), layout);
+};
+
+export const getLayout = async (id: string): Promise<string> => {
+  return await getLayoutByType(id, "html");
 };

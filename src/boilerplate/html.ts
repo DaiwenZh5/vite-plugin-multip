@@ -1,12 +1,13 @@
 import { minify } from "html-minifier-terser";
 import type { Config } from "../types";
 import fs from "fs";
-import glob from "tiny-glob";
 import { resolve } from "../utils/resolve";
+import { getLayoutByType } from "../utils/layouts";
 import { fixPath } from "../utils/path";
 
 export const html = async (
   body: string,
+  file: string,
   config?: Config,
   layout?: string,
   dev?: boolean
@@ -14,38 +15,7 @@ export const html = async (
   let code = "";
 
   if (layout && fs.existsSync(layout) && typeof layout === "string") {
-    const customHtml = fs.readFileSync(layout, "utf-8");
-
-    const cssPath = await glob(
-      layout.replace(".html", ".{css,scss,sass,less}"),
-      {
-        filesOnly: true,
-      }
-    );
-
-    const scriptPath = await glob(layout.replace(".html", ".{ts,js}"), {
-      filesOnly: true,
-    });
-
-    if (cssPath.length > 1 || scriptPath.length > 1) {
-      throw new Error("Multiple CSS or script files found for the layout.");
-    }
-
-    code = customHtml;
-
-    if (cssPath[0] && fs.existsSync(cssPath[0])) {
-      code = customHtml.replace(
-        "</head>",
-        `<script type="module">import "${!dev ? resolve(cssPath[0]) : fixPath(resolve(cssPath[0]), config?.directory || "src/pages")}";</script></head>`
-      );
-    }
-
-    if (scriptPath[0] && fs.existsSync(scriptPath[0])) {
-      code = code.replace(
-        "</body>",
-        `<script type="module" src="${!dev ? resolve(scriptPath[0]) : fixPath(resolve(scriptPath[0]), config?.directory || "src/pages")}"></script></body>`
-      );
-    }
+    code = fs.readFileSync(layout, "utf-8");
 
     code = code.replace("<slot />", body);
   } else if (fs.existsSync(resolve("index.html"))) {
@@ -76,6 +46,23 @@ export const html = async (
           ${body}
         </body>
       </html>`;
+  }
+
+  const cssPath = await getLayoutByType(file, "{css,scss,sass,less}");
+  const scriptPath = await getLayoutByType(file, "{ts,js}");
+
+  if (cssPath) {
+    code = code.replace(
+      "</head>",
+      `<script type="module">import "${!dev ? resolve(cssPath) : fixPath(resolve(cssPath), config?.directory || "src/pages")}";</script></head>`
+    )
+  }
+
+  if (scriptPath) {
+    code = code.replace(
+      "</body>",
+      `<script type="module">import "${!dev ? resolve(scriptPath) : fixPath(resolve(scriptPath), config?.directory || "src/pages")}";</script></body>`
+    )
   }
 
   const result = await minify(code, {
