@@ -3,6 +3,7 @@ import type { Config } from "../types";
 import fs from "fs";
 import { resolve } from "../utils/resolve";
 import { getLayoutByType } from "../utils/layouts";
+import { fixPath } from "../utils/path";
 
 export const html = async (
   body: string,
@@ -51,11 +52,17 @@ export const html = async (
   const scriptPath = await getLayoutByType(file, "{ts,js}");
 
   if (cssPath) {
-    code = code.replace("</head>", `<link rel="stylesheet" href="${cssPath}" /></head>`);
+    code = code.replace(
+      "</head>",
+      `<script type="module">import "${!dev ? resolve(cssPath) : fixPath(resolve(cssPath), config?.directory || "src/pages")}";</script></head>`
+    )
   }
 
   if (scriptPath) {
-    code = code.replace("</body>", `<script src="${scriptPath}"></script></body>`);
+    code = code.replace(
+      "</body>",
+      `<script type="module">import "${!dev ? resolve(scriptPath) : fixPath(resolve(scriptPath), config?.directory || "src/pages")}";</script></body>`
+    )
   }
 
   const result = await minify(code, {
