@@ -14,8 +14,8 @@ export const react = (
   return `
     <div id="app"></div>
     <script type="module">
-      import React from '${!dev ? "react" : "./node_modules/react"}';
-      import ReactDOM from '${!dev ? "react-dom/client" : "./node_modules/react-dom/client"}';
+      import React from '${!dev ? "react" : "./node_modules/.vite/deps/react.js"}';
+      import ReactDOM from '${!dev ? "react-dom/client" : "./node_modules/react-dom/cjs/react-dom.development.js"}';
       import App from '${!dev ? file : fixPath(file, root)}';
       ${!dev ? generateImports(css) : generateImportsDev(css, root)}
       ${!dev ? generateImports(scripts) : generateImportsDev(scripts, root)}

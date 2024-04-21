@@ -14,7 +14,7 @@ export const solid = (
   return `
     <div id="app"></div>
     <script type="module">
-      import { render } from '${!dev ? "solid-js/web" : "./node_modules/solid-js/web"}';
+      import { render } from '${!dev ? "solid-js/web" : "./node_modules/.vite/deps/solid-js_web.js"}';
       import App from '${!dev ? file : fixPath(file, root)}';
       ${!dev ? generateImports(css) : generateImportsDev(css, root)}
       ${!dev ? generateImports(scripts) : generateImportsDev(scripts, root)}
