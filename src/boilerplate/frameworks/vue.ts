@@ -19,7 +19,7 @@ export const vue = (
     <script type="module">
       import { createApp } from '${!dev ? "vue" : "./node_modules/.vite/deps/vue.js"}';
       import App from '${!dev ? file : fixPath(file, root)}';
-      ${init ? `import { init } from '${init}';` : ""}
+      ${init ? `import { init } from '${!dev ? init : fixPath(init, root)}';` : ""}
       ${!dev ? generateImports(css) : generateImportsDev(css, root)}
       ${!dev ? generateImports(scripts) : generateImportsDev(scripts, root)}
       const app = createApp(App);
