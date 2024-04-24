@@ -26,6 +26,7 @@ export const generateBoilerplate = async (options: BoilerplateOptions) => {
       return await html(
         svelte(file, css, scripts, dev, config.directory || "src/pages"),
         file,
+        framework,
         config,
         layout,
         dev
@@ -36,6 +37,7 @@ export const generateBoilerplate = async (options: BoilerplateOptions) => {
       return await html(
         vue(file, css, scripts, dev, config.directory || "src/pages", init),
         file,
+        framework,
         config,
         layout,
         dev
@@ -44,6 +46,7 @@ export const generateBoilerplate = async (options: BoilerplateOptions) => {
       return await html(
         react(file, css, scripts, dev, config.directory || "src/pages"),
         file,
+        framework,
         config,
         layout,
         dev
@@ -52,6 +55,7 @@ export const generateBoilerplate = async (options: BoilerplateOptions) => {
       return await html(
         solid(file, css, scripts, dev, config.directory || "src/pages"),
         file,
+        framework,
         config,
         layout,
         dev
@@ -60,6 +64,7 @@ export const generateBoilerplate = async (options: BoilerplateOptions) => {
       return await html(
         markdown(file, css, scripts, dev, config.directory || "src/pages"),
         file,
+        framework,
         config,
         layout,
         dev
@@ -68,6 +73,7 @@ export const generateBoilerplate = async (options: BoilerplateOptions) => {
       return await html(
         vanilla(file, css, scripts, dev, config.directory || "src/pages"),
         file,
+        framework,
         config,
         layout,
         dev

@@ -28,6 +28,11 @@ export const multip = (config?: Config): Plugin => {
 
       return {
         root: env.command === "build" ? root : "./",
+        optimizeDeps: {
+          include: Object
+            .values(frameworks)
+            .some((f) => f.type === "react") ? ["react-dom"] : [],
+        },
         build: {
           outDir: viteConfig.build?.outDir || "dist",
           emptyOutDir: true,

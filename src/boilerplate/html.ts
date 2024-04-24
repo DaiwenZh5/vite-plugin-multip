@@ -1,5 +1,5 @@
 import { minify } from "html-minifier-terser";
-import type { Config } from "../types";
+import type { Config, Framework } from "../types";
 import fs from "fs";
 import { resolve } from "../utils/resolve";
 import { getLayoutByType } from "../utils/layouts";
@@ -8,6 +8,7 @@ import { fixPath } from "../utils/path";
 export const html = async (
   body: string,
   file: string,
+  framework: Framework,
   config?: Config,
   layout?: string,
   dev?: boolean
@@ -62,6 +63,20 @@ export const html = async (
     code = code.replace(
       "</body>",
       `<script type="module">import "${!dev ? resolve(scriptPath) : fixPath(resolve(scriptPath), config?.directory || "src/pages")}";</script></body>`
+    )
+  }
+
+  if (framework.type === "react" && dev) {
+    code = code.replace(
+      "<head>",
+      `<head>
+      <script type="module">
+        import RefreshRuntime from "/@react-refresh"
+        RefreshRuntime.injectIntoGlobalHook(window)
+        window.$RefreshReg$ = () => {}
+        window.$RefreshSig$ = () => (type) => type
+        window.__vite_plugin_react_preamble_installed__ = true
+      </script>`
     )
   }
 

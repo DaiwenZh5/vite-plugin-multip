@@ -15,14 +15,14 @@ export const react = (
     <div id="app"></div>
     <script type="module">
       import React from '${!dev ? "react" : "./node_modules/.vite/deps/react.js"}';
-      import { createRoot } from '${!dev ? "react-dom/client" : "./node_modules/react-dom/client.js"}';
+      import ReactDOM from '${!dev ? "react-dom/client" : "./node_modules/.vite/deps/react-dom_client.js"}';
       import App from '${!dev ? file : fixPath(file, root)}';
       ${!dev ? generateImports(css) : generateImportsDev(css, root)}
       ${!dev ? generateImports(scripts) : generateImportsDev(scripts, root)}
 
       const e = React.createElement;
 
-      createRoot(document.getElementById('app')).render(
+      ReactDOM.createRoot(document.getElementById('app')).render(
         e(App, null)
       );
     </script>
