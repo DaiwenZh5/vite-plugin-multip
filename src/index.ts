@@ -5,6 +5,7 @@ import { getInputs, type Frameworks } from "./utils/input";
 import { load } from "./load";
 import glob from "tiny-glob";
 import copy from "rollup-plugin-copy";
+import path from "path";
 
 export const multip = (config?: Config): Plugin => {
   const root = config?.directory || "src/pages";
@@ -34,19 +35,19 @@ export const multip = (config?: Config): Plugin => {
             .some((f) => f.type === "react") ? ["react-dom"] : [],
         },
         build: {
-          outDir: viteConfig.build?.outDir || "dist",
+          outDir: path.join(
+            "../../",
+            viteConfig.build?.outDir || "dist/"
+          ),
           emptyOutDir: true,
           rollupOptions: {
             input: env.command === "build" ? input : {},
-            output: {
-              dir: viteConfig.build?.outDir || "dist",
-            },
             plugins: [
               copy({
                 targets: [
                   {
                     src: viteConfig.publicDir || "public/",
-                    dest: viteConfig.build?.outDir || "dist",
+                    dest: viteConfig.build?.outDir || "dist/",
                   },
                   ...assets,
                 ],
@@ -92,5 +93,13 @@ export const multip = (config?: Config): Plugin => {
 
       return await load(page, framework, config || {}, true);
     },
+
+    configResolved(config) {
+      // Replace ../../ from build logs (is pretty ugly)
+      config.logger.info = (msg) => {
+        if (config.command === "build") console.log(msg.replace("../../", ""));
+        else console.log(msg);
+      }
+    }
   };
 };
