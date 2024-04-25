@@ -70,13 +70,15 @@ export const html = async (
     code = code.replace(
       "<head>",
       `<head>
-      <script type="module">
-        import RefreshRuntime from "/@react-refresh"
-        RefreshRuntime.injectIntoGlobalHook(window)
-        window.$RefreshReg$ = () => {}
-        window.$RefreshSig$ = () => (type) => type
-        window.__vite_plugin_react_preamble_installed__ = true
-      </script>`
+      <script type="module" src="/@multip/refresh-runtime"></script>`
+    )
+  }
+
+  // Inject @multip dev scripts
+  if (dev) {
+    code = code.replace(
+      "</body>",
+      `<script type="module" src="/@multip/dev"></script></body>`
     )
   }
 
