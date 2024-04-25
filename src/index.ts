@@ -1,7 +1,10 @@
 import type { Plugin } from "vite";
 import type { Config } from "./types";
 import { resolve } from "./utils/resolve";
+import { getExternalDeps } from "./utils/config";
 import { getInputs, type Frameworks } from "./utils/input";
+import { getPageFromIndex } from "./utils/page";
+import { configureServer } from "./server";
 import { load } from "./load";
 import glob from "tiny-glob";
 import copy from "rollup-plugin-copy";
@@ -27,12 +30,12 @@ export const multip = (config?: Config): Plugin => {
 
       if (!input) throw new Error("No pages found");
 
+      const isDev = env.command !== "build";
+
       return {
-        root: env.command === "build" ? root : "./",
+        root: !isDev ? root : "./",
         optimizeDeps: {
-          include: Object
-            .values(frameworks)
-            .some((f) => f.type === "react") ? ["react-dom"] : [],
+          include: getExternalDeps(frameworks),
         },
         build: {
           outDir: path.join(
@@ -41,7 +44,7 @@ export const multip = (config?: Config): Plugin => {
           ),
           emptyOutDir: true,
           rollupOptions: {
-            input: env.command === "build" ? input : {},
+            input: !isDev ? input : {},
             plugins: [
               copy({
                 targets: [
@@ -82,24 +85,26 @@ export const multip = (config?: Config): Plugin => {
 
       const originalUrl = ctx.originalUrl.split("?")[0];
 
-      const pages = resolve(`.${ctx.path.replace("index.html", "") + root}`);
-      const id = resolve(`${pages}/${originalUrl}/index.html`);
-      const framework = frameworks[id];
+      if (!originalUrl) return;
 
-      if (!framework)
-        return `<!DOCTYPE html><html><title>404</title><body>404</body></html>`;
+      const page = getPageFromIndex(ctx, { frameworks, root, originalUrl });
 
-      const page = id.replace("index.html", `index.${framework.ext}`);
+      if (!page) return;
 
-      return await load(page, framework, config || {}, true);
+      return await load(page.file, page.framework, config || {}, true);
     },
 
     configResolved(config) {
       // Replace ../../ from build logs (is pretty ugly)
-      config.logger.info = (msg) => {
-        if (config.command === "build") console.log(msg.replace("../../", ""));
-        else console.log(msg);
+      if (config.command === "build") {
+        config.logger.info = (msg) => {
+          console.info(msg.replace("../../", ""));
+        }
       }
-    }
+    },
+
+    configureServer(server) {
+      configureServer(server, { root, frameworks, config: config || {} })
+    },
   };
 };

@@ -16,3 +16,8 @@ export type Framework = {
   type: string;
   ext: string;
 };
+
+export type ResolvedPage = {
+  file: string;
+  framework: Framework;
+}
