@@ -4,11 +4,12 @@ import { resolve } from "./utils/resolve";
 import { getExternalDeps } from "./utils/config";
 import { getInputs, type Frameworks } from "./utils/input";
 import { getPageFromIndex } from "./utils/page";
-import { configureServer } from "./server";
+import { configureServerMiddlewares, handleRestart } from "./server";
 import { load } from "./load";
 import glob from "tiny-glob";
 import copy from "rollup-plugin-copy";
 import path from "path";
+import mm from "micromatch";
 
 export const multip = (config?: Config): Plugin => {
   const root = config?.directory || "src/pages";
@@ -104,7 +105,17 @@ export const multip = (config?: Config): Plugin => {
     },
 
     configureServer(server) {
-      configureServer(server, { root, frameworks, config: config || {} })
+      configureServerMiddlewares(server, { root, frameworks, config: config || {} })
+
+      server.watcher.add("**/*.{svelte,vue,tsx,jsx,md,html,css,scss,sass,less,js,ts}");
+
+      server.watcher.on("add", (file) => {
+        handleRestart(server, file);
+      });
+
+      server.watcher.on("unlink", (file) => {
+        handleRestart(server, file);
+      });
     },
   };
 };
