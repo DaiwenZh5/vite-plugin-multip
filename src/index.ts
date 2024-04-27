@@ -9,7 +9,6 @@ import { load } from "./load";
 import glob from "tiny-glob";
 import copy from "rollup-plugin-copy";
 import path from "path";
-import mm from "micromatch";
 
 export const multip = (config?: Config): Plugin => {
   const root = config?.directory || "src/pages";
