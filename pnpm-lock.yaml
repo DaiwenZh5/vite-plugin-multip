@@ -14,6 +14,9 @@ importers:
       markdown-it:
         specifier: ^14.1.0
         version: 14.1.0
+      micromatch:
+        specifier: ^4.0.5
+        version: 4.0.5
       rollup-plugin-copy:
         specifier: ^3.5.0
         version: 3.5.0
@@ -27,6 +30,9 @@ importers:
       '@types/html-minifier-terser':
         specifier: ^7.0.2
         version: 7.0.2
+      '@types/micromatch':
+        specifier: ^4.0.7
+        version: 4.0.7
       '@types/node':
         specifier: ^20.12.7
         version: 20.12.7
@@ -442,6 +448,9 @@ packages:
     cpu: [x64]
     os: [win32]
 
+  '@types/braces@3.0.4':
+    resolution: {integrity: sha512-0WR3b8eaISjEW7RpZnclONaLFDf7buaowRHdqLp4vLj54AsSAYWfh3DRbfiYJY9XDxMgx1B4sE1Afw2PGpuHOA==}
+
   '@types/estree@1.0.5':
     resolution: {integrity: sha512-/kYRxGDLWzHOB7q+wtSUQlFrtcdUccpfy+X+9iMBpHK8QLLhx2wIPYuS5DYtR9Wa/YlZAbIovy7qVdB1Aq6Lyw==}
 
@@ -453,6 +462,9 @@ packages:
 
   '@types/html-minifier-terser@7.0.2':
     resolution: {integrity: sha512-mm2HqV22l8lFQh4r2oSsOEVea+m0qqxEmwpc9kC1p/XzmjLWrReR9D/GRs8Pex2NX/imyEH9c5IU/7tMBQCHOA==}
+
+  '@types/micromatch@4.0.7':
+    resolution: {integrity: sha512-C/FMQ8HJAZhTsDpl4wDKZdMeeW5USjgzOczUwTGbRc1ZopPgOhIEnxY2ZgUrsuyy4DwK1JVOJZKFakv3TbCKiA==}
 
   '@types/minimatch@5.1.2':
     resolution: {integrity: sha512-K0VQKziLUWkVKiRVrx4a40iPaxTUefQmjtkQofBkYRcoaaL/8rhwDWww9qWbrgicNOgnpIsMxyNIUM4+n6dUIA==}
@@ -1325,6 +1337,8 @@ snapshots:
   '@rollup/rollup-win32-x64-msvc@4.14.3':
     optional: true
 
+  '@types/braces@3.0.4': {}
+
   '@types/estree@1.0.5': {}
 
   '@types/fs-extra@8.1.5':
@@ -1337,6 +1351,10 @@ snapshots:
       '@types/node': 20.12.7
 
   '@types/html-minifier-terser@7.0.2': {}
+
+  '@types/micromatch@4.0.7':
+    dependencies:
+      '@types/braces': 3.0.4
 
   '@types/minimatch@5.1.2': {}
 
