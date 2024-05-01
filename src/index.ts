@@ -11,7 +11,6 @@ import path from "path";
 
 export const multip = (config?: Config): Plugin => {
   const root = config?.directory || "src/pages";
-  const assets = config?.assets || [];
   const frameworks: Frameworks = {};
 
   return {
