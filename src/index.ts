@@ -7,7 +7,6 @@ import { getPageFromIndex } from "./utils/page";
 import { configureServerMiddlewares, handleRestart } from "./server";
 import { load } from "./load";
 import glob from "tiny-glob";
-import copy from "rollup-plugin-copy";
 import path from "path";
 
 export const multip = (config?: Config): Plugin => {
@@ -32,30 +31,27 @@ export const multip = (config?: Config): Plugin => {
 
       const isDev = env.command !== "build";
 
+      const publicDir = path.join(
+        "../../",
+        viteConfig.publicDir || "public/"
+      );
+
+      const distDir = path.join(
+        "../../",
+        viteConfig.build?.outDir || "dist/"
+      );
+
       return {
         root: !isDev ? root : "./",
         optimizeDeps: {
           include: getExternalDeps(frameworks),
         },
+        publicDir: !isDev ? publicDir : viteConfig.publicDir || "public/",
         build: {
-          outDir: path.join(
-            "../../",
-            viteConfig.build?.outDir || "dist/"
-          ),
+          outDir: distDir,
           emptyOutDir: true,
           rollupOptions: {
             input: !isDev ? input : {},
-            plugins: [
-              copy({
-                targets: [
-                  {
-                    src: viteConfig.publicDir || "public/",
-                    dest: viteConfig.build?.outDir || "dist/",
-                  },
-                  ...assets,
-                ],
-              }),
-            ],
           },
         },
       };
