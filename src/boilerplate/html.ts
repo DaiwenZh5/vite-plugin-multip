@@ -15,7 +15,7 @@ export const html = async (
 ) => {
   let code = "";
 
-  if (layout && fs.existsSync(layout) && typeof layout === "string") {
+  if (layout && fs.existsSync(layout)) {
     code = fs.readFileSync(layout, "utf-8");
 
     code = code.replace("<slot />", body);
@@ -33,7 +33,7 @@ export const html = async (
 
   if (!code) {
     // Catch-all for when no index.html is found
-    // Pretty rare case, because without the index.html the dev mode dosn't work
+    // Pretty rare case, because without the index.html the dev mode doesn't work
 
     code = `
       <!DOCTYPE html>

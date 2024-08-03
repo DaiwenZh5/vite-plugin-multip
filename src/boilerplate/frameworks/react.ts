@@ -15,7 +15,7 @@ export const react = (
     <div id="app"></div>
     <script type="module">
       import React from '${!dev ? "react" : "./node_modules/.vite/deps/react.js"}';
-      import ReactDOM from '${!dev ? "react-dom/client" : "./node_modules/.vite/deps/react-dom_client.js"}';
+      import ReactDOM from '${!dev ? "react-dom/client" : "./node_modules/.vite/deps/react-dom.js"}';
       import App from '${!dev ? file : fixPath(file, root)}';
       ${!dev ? generateImports(css) : generateImportsDev(css, root)}
       ${!dev ? generateImports(scripts) : generateImportsDev(scripts, root)}
